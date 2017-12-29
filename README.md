@@ -29,8 +29,9 @@ Aquestes dades es carreguen a un cua concurrent *ConcurrentQueue* que permet que
  
  
 Cal que completeu el codi per tal que el programa funcioni amb un Tasks per cadascuna de les caixeres. Obtenint un resultat com el següent:
+
 ![Resultat](img/pract03.png)
 
 
-Al moodle pugeu el projecte en format ZIP. Es recomana que feu diverses proves amb diferents arxius CSV que podeu crear vosaltres.
+Al moodle pugeu el projecte en format ZIP. Es recomana que feu diverses proves amb diferents arxius CSV que podeu crear vosaltres, us podeu baixar d'aquí el fitxer CSV per fer proves.
 

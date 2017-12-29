@@ -35,3 +35,6 @@ Cal que completeu el codi per tal que el programa funcioni amb un Tasks per cada
 
 Al moodle pugeu el projecte en format ZIP. Es recomana que feu diverses proves amb diferents arxius CSV que podeu crear vosaltres, us podeu baixar d'aquí el fitxer CSV per fer proves.
 
+## Millores i extres
+
+Podeu modificar el projecte per tal de fer una aplicació gràfica enlloc d'una aplicació de consola.

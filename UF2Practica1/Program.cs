@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.IO;
@@ -25,26 +26,25 @@ namespace UF2Practica1
 		public static void Main(string[] args)
 		{
 			var clock = new Stopwatch();
-			var threads = new List<Thread>();
-			//Recordeu-vos que el fitxer CSV ha d'estar a la carpeta bin/debug de la solució
-			const string fitxer = "CuaClients.csv";
+			var threads = new List<Task>();
+			//Recordeu-vos indicar la ruta del fitxer
+			string filePath="";
 
 			try
 			{
-				var reader = new StreamReader(File.OpenRead(@fitxer));
-
-
-				//Carreguem la llista clients
-
-				while (!reader.EndOfStream)
+				using (StreamReader sr = new StreamReader(filePath))
 				{
-					var line = reader.ReadLine();
-					var values = line.Split(';');
-					var tmp = new Client() { nom = values[0], carretCompra = Int32.Parse(values[1]) };
-					cua.Enqueue(tmp);
+    					sr.ReadLine();
+    					while (sr.Peek() != -1)
+    					{
+       						string line = sr.ReadLine();
+        					var values = line.Split(';');
+                    				var tmp = new Client() { nom = values[0], carretCompra = Int32.Parse(values[1]) };
+                    				cua.Enqueue(tmp);
 
+       
+    					}
 				}
-
 			}
 			catch (Exception)
 			{
@@ -56,14 +56,14 @@ namespace UF2Practica1
 			clock.Start();
 
 
-			// Instanciar les caixeres i afegir el thread creat a la llista de threads
+			// Instanciar les caixeres i afegir el task creat a la llista de tasks
 
 
 
 
 			// Procediment per esperar que acabin tots els threads abans d'acabar
-			foreach (Thread thread in threads)
-				thread.Join();
+			
+			Task.WaitAll(task.ToArray());
 
 			// Parem el rellotge i mostrem el temps que triga
 			clock.Stop();

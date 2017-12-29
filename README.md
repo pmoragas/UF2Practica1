@@ -1,5 +1,5 @@
 # UF2Practica1: Pràctica Tasks
-##Enunciat
+## Enunciat
 En aquest exercici volem simular el procés de cobrament d'un supermercat: una cua de clients amb un carret amb un nombre de productes i una línia de caixes amb un nombre de caixeres determinat amb un sistema de cua única, els clients es van repartint a les diferents caixes, conforme van quedan lliures.
 
 

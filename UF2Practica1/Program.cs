@@ -11,10 +11,8 @@ namespace UF2Practica1
 	class MainClass
 	{
 		//Valors constants
-		#region Constants
-		const int nCaixeres = 3;
+		const String CLIENTS_FILE = "clients.csv";
 
-		#endregion
 		/* Cua concurrent
 		 	Dos mètodes bàsics: 
 		 		Cua.Enqueue per afegir a la cua
@@ -25,20 +23,24 @@ namespace UF2Practica1
 
 		public static void Main(string[] args)
 		{
+
 			var clock = new Stopwatch();
-			var threads = new List<Task>();
-			//Recordeu-vos indicar la ruta del fitxer
-			string filePath="";
+			var tasks = new List<Task>();
+            //Recordeu-vos indicar la ruta del fitxer
+            string filePath = System.IO.Path.GetFullPath(CLIENTS_FILE);
+            
 
 			try
 			{
+                //LLEGIM ARXIU CLIENTS
 				using (StreamReader sr = new StreamReader(filePath))
 				{
     					sr.ReadLine();
     					while (sr.Peek() != -1)
     					{
        						string line = sr.ReadLine();
-        					var values = line.Split(';');
+        					var values = line.Split(',');
+                                    //CREEM ELS CLIENTS AMB LES DADES DE L'ARXIU
                     				var tmp = new Client() { nom = values[0], carretCompra = Int32.Parse(values[1]) };
                     				cua.Enqueue(tmp);
 
@@ -53,43 +55,80 @@ namespace UF2Practica1
 				Environment.Exit(0);
 			}
 
+
 			clock.Start();
 
 
-			// Instanciar les caixeres i afegir el task creat a la llista de tasks
+            // Instanciar les caixeres i afegir el task creat a la llista de tasks
+            Caixera caix1 = new Caixera() { idCaixera = 1 };
+            Caixera caix2 = new Caixera() { idCaixera = 2 };
+            Caixera caix3 = new Caixera() { idCaixera = 3 };
+
+            
+            //Instanciem les TASK per cada CAIXERA
+            var task1 = new Task(() =>
+            {
+                caix1.ProcessarCua(cua);     
+            });
+
+            var task2 = new Task(() =>
+            {
+                caix2.ProcessarCua(cua);
+            });
+
+            var task3 = new Task(() =>
+            {
+                caix3.ProcessarCua(cua);
+            });
+
+            //Iniciem les TASK
+            task1.Start();
+            task2.Start();
+            task3.Start();
+
+            //Apilem les TASK per a fer el WAIT
+            tasks.Add(task1);
+            tasks.Add(task2);
+            tasks.Add(task3);
+
+            // Procediment per esperar que acabin tots els threads abans d'acabar
+            Task.WaitAll(tasks.ToArray());
 
 
-
-
-			// Procediment per esperar que acabin tots els threads abans d'acabar
-			
-			Task.WaitAll(task.ToArray());
 
 			// Parem el rellotge i mostrem el temps que triga
 			clock.Stop();
 			double temps = clock.ElapsedMilliseconds / 1000;
-			Console.Clear();
+			//Console.Clear();
 			Console.WriteLine("Temps total Task: " + temps + " segons");
 			Console.ReadKey();
 		}
 	}
+
+
+    //CLASS CAIXERA
 	#region ClassCaixera
 	public class Caixera
 	{
-		public int idCaixera
+        //GETTERS/SETTERS
+        public int idCaixera
 		{
 			get;
 			set;
 		}
 
-		public void ProcessarCua()
+        //MÈTODES
+		public void ProcessarCua(ConcurrentQueue<Client> cua)
 		{
-			// Llegirem la cua extreient l'element
-			// cridem al mètode ProcesarCompra passant-li el client
-
-
-
-		}
+            // Llegirem la cua extreient l'element
+            // cridem al mètode ProcesarCompra passant-li el client
+            Client clientActual;
+            while (cua.TryDequeue(out clientActual))
+            {
+                ProcesarCompra(clientActual);
+            }
+   
+        }
 
 
 		private void ProcesarCompra(Client client)
@@ -113,13 +152,15 @@ namespace UF2Practica1
 		}
 	}
 
-
 	#endregion
 
+
+    //CLASS CLIENT
 	#region ClassClient
 
 	public class Client
 	{
+        //GETTERS/SETTERS
 		public string nom
 		{
 			get;

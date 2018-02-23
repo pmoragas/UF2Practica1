@@ -13,7 +13,7 @@ Es defineix una classe "Caixera" que té com atribut un int Id per identificar c
 "GestionarCompra" on bàsicament es mostra un missatge indicant quina caixera gestionarà al client X i on hi ha un bucle per simular el pas dels diferents articles per l'escàner.
 "GestioProducte" simula el procés de l'escàner i introdueix una espera de 1 s.
 
-La llista de clients es troba a un arxiu CSV [clients.csv](clients.csv) on cada fila consta de dos camps separats per , indicant el IdClient i el nombre de articles:
+La llista de clients es troba a un arxiu CSV [clients.csv](clients.csv) on cada fila consta de dos camps separats per ; indicant el IdClient i el nombre de articles:
 
  > 01,12
  
